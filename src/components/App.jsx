@@ -12,16 +12,6 @@ export class App extends Component {
     page:1
     }
 
-      handleSubmit = (e) =>{
-        e.preventDefault()
-        
-        this.setState({
-          query: e.target.elements.query.value,
-          images: [],
-          page:1
-        })
-        }
-
       componentDidUpdate(prevProps, prevState) { 
         if (prevState.query !== this.state.query || prevState.page !== this.state.page){
           
@@ -35,41 +25,18 @@ export class App extends Component {
       this.setState(prevState => ({ page: prevState.page + 1}))
       console.log(this.state.page)
     }
-    
+
 
     formSubmitHendle = data =>{
       console.log(data)
-      this.setState(prev => ({images: [...prev.images, data] }))
+      this.setState(prev => ({query: [...prev.query, data] }))
     }
   
   render(){
   return (
     <div>
-      <Searchbar onSubmit={this.formSubmitHendle}/>
-      <header className="searchbar">
-                    <form
-                     className="form" 
-                    onSubmit={this.handleSubmit}
-                     >
-                    <button type="submit" className="button">
-                    <span className="button-label">Search</span>
-                    </button>
-
-                    <input
-                        className="input"
-                        type="text"
-                        name="query"
-                        // autocomplete="off"
-                        // autofocus
-                       placeholder="Search images and photos"
-                      //  value={this.state.query}
-                      //  onChange={this.handleChange}
-                    />
-                    
-                    </form>
-                </header>
-                
-      {/* <Loader/> */}
+      <Searchbar onSubmit={this.formSubmitHendle}/>                      
+      <Loader/>
       <ImageGallery images={this.state.images}/>
        
       {/* <Modal/> */}
