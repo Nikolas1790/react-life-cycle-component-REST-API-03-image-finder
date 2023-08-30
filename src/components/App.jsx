@@ -21,14 +21,12 @@ export class App extends Component {
       } 
 
     handleLoaderMore = () => {
-      console.log( this.state.images)
-      this.setState(prevState => ({ page: prevState.page + 1}))
-      console.log(this.state.page)
+       this.setState(prevState => ({ page: prevState.page + 1}))
+      
     }
 
 
     formSubmitHendle = data =>{
-      console.log(data)
       this.setState(prev => ({query: [...prev.query, data] }))
     }
   
