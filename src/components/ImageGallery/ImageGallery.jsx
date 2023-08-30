@@ -1,10 +1,10 @@
 import { ImageGalleryItem } from "components/ImageGalleryItem/ImageGalleryItem"
 
-export const ImageGallery = () =>{
+export const ImageGallery = ({images}) =>{
     return (
         <div>
             <ul className="gallery">
-                <ImageGalleryItem/>
+                <ImageGalleryItem images={images}/>
   
             </ul>
             

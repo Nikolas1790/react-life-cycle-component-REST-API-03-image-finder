@@ -20,29 +20,31 @@ export class App extends Component {
           images: [],
           page:1
         })
-        console.log(this.state.images)
-      }
+        }
 
       componentDidUpdate(prevProps, prevState) { 
         if (prevState.query !== this.state.query || prevState.page !== this.state.page){
-          // HTTP
           
-          fetch('https://pixabay.com/api/?q=cat&page=1&key=38315175-abb8429954921ba34a6a526ed&image_type=photo&orientation=horizontal&per_page=12')
-      .then(resp => resp.json()).then(cards => this.setState({ images: cards}))
-     
+          fetch(`https://pixabay.com/api/?q=${this.state.query}&page=${this.state.page}&key=38315175-abb8429954921ba34a6a526ed&image_type=photo&orientation=horizontal&per_page=12`)
+      .then(resp => resp.json()).then(({hits}) => this.setState({ images: hits}))     
         }
       } 
 
     handleLoaderMore = () => {
-      console.log(this.state.images)
+      console.log( this.state.images)
       this.setState(prevState => ({ page: prevState.page + 1}))
       console.log(this.state.page)
+    }
+
+    formSubmitHendle = data =>{
+      console.log(data)
+      this.setState(prev => ({images: [...prev.images, data] }))
     }
   
   render(){
   return (
     <div>
-      {/* <Searchbar/> */}
+      <Searchbar onSubmit={this.formSubmitHendle}/>
       <header className="searchbar">
                     <form
                      className="form" 
@@ -65,21 +67,14 @@ export class App extends Component {
                     
                     </form>
                 </header>
-                {this.state.images.length > 0 && <div>GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG</div>}
+                
       {/* <Loader/> */}
-      {/* <ImageGallery/> */}
-
-      {this.state.images.length > 0 && <div>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</div>}
-
-
-
+      <ImageGallery images={this.state.images}/>
+       
       {/* <Modal/> */}
+      {this.state.images.length > 0 && <div>GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG</div>}
 
-
-      <div>
-        <button type="button" className="button" onClick={this.handleLoaderMore}>Load more</button>
-    </div>
-      {/* <Button/> */}
+      <Button handleLoaderMore={this.handleLoaderMore}/>
     </div>
   )}
 };

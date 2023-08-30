@@ -1,6 +1,6 @@
-export const Button = () => {
+export const Button = ({handleLoaderMore}) => {
     return (
     <div>
-        <button type="button" className="button">Load more</button>
+        <button type="button" className="button" onClick={handleLoaderMore}>Load more</button>
     </div>
 )}
