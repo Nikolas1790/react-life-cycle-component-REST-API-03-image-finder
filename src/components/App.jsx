@@ -37,7 +37,7 @@ export class App extends Component {
       <Loader/>
       <ImageGallery images={this.state.images}/>
        
-      {/* <Modal/> */}
+      <Modal/>
       {this.state.images.length > 0 && <div>GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG</div>}
 
       <Button handleLoaderMore={this.handleLoaderMore}/>
