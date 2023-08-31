@@ -12,9 +12,12 @@ export class App extends Component {
   state = {
     query:'',
     images: [],
-    page:1
+    page:1,
+
+    loader: false,
     }
       componentDidUpdate(prevProps, prevState) { 
+        // this.setState({ loader: true})
         if (prevState.query !== this.state.query || prevState.page !== this.state.page){
           getImages(this.state.query, this.state.page).then(({hits}) => this.setState({ images: hits}))
           
@@ -42,7 +45,10 @@ export class App extends Component {
     <AppStyled>
       <Searchbar onSubmit={this.formSubmitHendle}/>  
       {/* <ContentInfo query={this.state.query}/>                     */}
-      <Loader/>
+      
+      {this.state.loader && <Loader/>}
+
+
       <ImageGallery images={this.state.images}/>
        
       <Modal/>

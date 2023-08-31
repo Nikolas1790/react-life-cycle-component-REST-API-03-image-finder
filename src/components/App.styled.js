@@ -71,7 +71,7 @@ export const SearchFormInput = styled.input`
          display: inline-block;
          width: 360px;
          font: inherit;
-         /* font-size: 20px; */
+         font-size: -16px;
          border: none;
          outline: none;
          padding-left: 4px;

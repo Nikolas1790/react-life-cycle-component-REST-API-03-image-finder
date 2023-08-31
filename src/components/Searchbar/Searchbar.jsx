@@ -12,9 +12,14 @@ export class Searchbar extends Component {
       }
 
       handleSubmit = (e) =>{
-        e.preventDefault()            
+        e.preventDefault()    
+        if(!this.state.query.trim()){
+         return alert(`Please, enter your query in the search bar :)`)
+        }
         this.props.onSubmit(this.state.query);
-        // this.setState({query: ''})
+        this.setState({
+          query: ''
+        })
 
       }
 
