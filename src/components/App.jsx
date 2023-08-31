@@ -5,6 +5,7 @@ import { Button } from "./Button/Button"
 import { Loader } from "./Loader/Loader"
 import { Modal } from "./Modal/Modal"
 import { getImages } from "services/getImages"
+import { AppStyled } from "components/App.styled"
 // import { ContentInfo } from "./ContentInfo/ContentInfo"
 
 export class App extends Component {
@@ -38,7 +39,7 @@ export class App extends Component {
   
   render(){
   return (
-    <div>
+    <AppStyled>
       <Searchbar onSubmit={this.formSubmitHendle}/>  
       {/* <ContentInfo query={this.state.query}/>                     */}
       <Loader/>
@@ -48,15 +49,7 @@ export class App extends Component {
       {this.state.images.length > 0 && <div>GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG</div>}
 
       <Button handleLoaderMore={this.handleLoaderMore}/>
-    </div>
+      </AppStyled>
   )}
 };
 
-// style={{
-//   height: '100vh',
-//   display: 'flex',
-//   justifyContent: 'center',
-//   alignItems: 'center',
-//   fontSize: 40,
-//   color: '#010101'
-// }}

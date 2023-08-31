@@ -1,15 +1,13 @@
+import { ImageGalleryOne, ImageGalleryOneImg } from "./ImageGalleryItem.styled"
+
 export const ImageGalleryItem = ({images}) => {
     return (
-        <div>
+        <>
             {images.map(({id, webformatURL, largeImageURL, tags }) =>(
-      <li className="gallery-item" key={id} >
-                <img src={webformatURL} alt={tags} width="300"/>
-            </li>))}
-        </div>
+      <ImageGalleryOne className="gallery-item" key={id} >
+                <ImageGalleryOneImg src={webformatURL} alt={tags}/>
+            </ImageGalleryOne>))}
+        </>
     )
 }
 
-// ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-//             <li className="gallery-item">
-//                 <img src="" alt="" />
-//             </li>

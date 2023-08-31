@@ -1,4 +1,6 @@
+import { SearchBarStyled, SearchFormBtn, SearchFormBtnLable, SearchFormInput, SearchFormStyled } from "components/App.styled";
 import { Component } from "react";
+
 
 export class Searchbar extends Component {
     state = {
@@ -18,17 +20,17 @@ export class Searchbar extends Component {
 
     render() {
         return(
-            <div>
+            <SearchBarStyled>
                 <header className="searchbar">
-                    <form
+                    <SearchFormStyled
                      className="form" 
                     onSubmit={this.handleSubmit}
                      >
-                    <button type="submit" className="button">
-                    <span className="button-label">Search</span>
-                    </button>
+                    <SearchFormBtn type="submit" className="button">
+                    <SearchFormBtnLable className="button-label">Search</SearchFormBtnLable>
+                    </SearchFormBtn>
 
-                    <input
+                    <SearchFormInput
                         className="input"
                         type="text"
                         name="query"
@@ -38,10 +40,10 @@ export class Searchbar extends Component {
                        value={this.state.query}
                        onChange={this.handleChange}
                     />                    
-                    </form>
+                    </SearchFormStyled>
                 </header>
                 {/* {this.state.cards && <p>{console.log(this.state.cards.hits[0].largeImageURL)}</p>} */}
-            </div>
+            </SearchBarStyled>
         )
     }
 }

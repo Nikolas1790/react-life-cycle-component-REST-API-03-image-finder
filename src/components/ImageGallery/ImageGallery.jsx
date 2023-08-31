@@ -1,12 +1,12 @@
 import { ImageGalleryItem } from "components/ImageGalleryItem/ImageGalleryItem"
-
+import {  ImageGalleryUl } from "./ImageGallery.styled"
 export const ImageGallery = ({images}) =>{
     return (
         <div>
-            <ul className="gallery">
+            <ImageGalleryUl className="gallery">
                 <ImageGalleryItem images={images}/>
   
-            </ul>
+            </ImageGalleryUl>
             
         </div>
     )

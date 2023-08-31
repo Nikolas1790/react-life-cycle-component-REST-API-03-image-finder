@@ -1,6 +1,9 @@
+import { BtnLoadMore, BtnWrapper } from "./Button.styled"
+
 export const Button = ({handleLoaderMore}) => {
     return (
-    <div>
-        <button type="button" className="button" onClick={handleLoaderMore}>Load more</button>
-    </div>
+    <BtnWrapper>
+        <BtnLoadMore type="button" className="button" onClick={handleLoaderMore}>Load more</BtnLoadMore>
+    </BtnWrapper>
 )}
+
