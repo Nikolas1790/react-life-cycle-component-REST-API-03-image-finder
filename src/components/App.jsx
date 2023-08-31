@@ -25,7 +25,6 @@ export class App extends Component {
       
     }
 
-
     formSubmitHendle = data =>{
       this.setState(prev => ({query: [...prev.query, data] }))
     }
