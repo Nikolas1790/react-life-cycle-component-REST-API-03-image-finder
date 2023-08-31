@@ -4,6 +4,8 @@ import { ImageGallery } from "./ImageGallery/ImageGallery"
 import { Button } from "./Button/Button"
 import { Loader } from "./Loader/Loader"
 import { Modal } from "./Modal/Modal"
+import { getImages } from "services/getImages"
+// import { ContentInfo } from "./ContentInfo/ContentInfo"
 
 export class App extends Component {
   state = {
@@ -11,14 +13,19 @@ export class App extends Component {
     images: [],
     page:1
     }
-
       componentDidUpdate(prevProps, prevState) { 
         if (prevState.query !== this.state.query || prevState.page !== this.state.page){
+          getImages(this.state.query, this.state.page).then(({hits}) => this.setState({ images: hits}))
           
-          fetch(`https://pixabay.com/api/?q=${this.state.query}&page=${this.state.page}&key=38315175-abb8429954921ba34a6a526ed&image_type=photo&orientation=horizontal&per_page=12`)
-      .then(resp => resp.json()).then(({hits}) => this.setState({ images: hits}))     
+      //     fetch(`https://pixabay.com/api/?q=${this.state.query}&page=${this.state.page}&key=38315175-abb8429954921ba34a6a526ed&image_type=photo&orientation=horizontal&per_page=12`)
+      // .then(resp => resp.json()).then(({hits}) => this.setState({ images: hits}))     
         }
-      } 
+      }
+      
+      // handleSearch = (query) => {
+      //   this.setState({query})
+
+      // }
 
     handleLoaderMore = () => {
        this.setState(prevState => ({ page: prevState.page + 1}))
@@ -32,7 +39,8 @@ export class App extends Component {
   render(){
   return (
     <div>
-      <Searchbar onSubmit={this.formSubmitHendle}/>                      
+      <Searchbar onSubmit={this.formSubmitHendle}/>  
+      {/* <ContentInfo query={this.state.query}/>                     */}
       <Loader/>
       <ImageGallery images={this.state.images}/>
        
