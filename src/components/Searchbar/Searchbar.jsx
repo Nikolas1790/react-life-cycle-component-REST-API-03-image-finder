@@ -39,16 +39,14 @@ export class Searchbar extends Component {
                     <SearchFormInput
                         className="input"
                         type="text"
-                        name="query"
-                        // autocomplete="off"
-                        // autofocus
+                        name="query"                        
                        placeholder="Search images and photos"
                        value={this.state.query}
                        onChange={this.handleChange}
                     />                    
                     </SearchFormStyled>
                 </header>
-                {/* {this.state.cards && <p>{console.log(this.state.cards.hits[0].largeImageURL)}</p>} */}
+                
             </SearchBarStyled>
         )
     }
