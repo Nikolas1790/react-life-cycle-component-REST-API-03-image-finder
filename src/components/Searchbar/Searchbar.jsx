@@ -1,5 +1,6 @@
 import { SearchBarStyled, SearchFormBtn, SearchFormBtnLable, SearchFormInput, SearchFormStyled } from "components/App.styled";
 import { Component } from "react";
+import { toast } from "react-toastify"; 
 
 
 export class Searchbar extends Component {
@@ -14,7 +15,7 @@ export class Searchbar extends Component {
       handleSubmit = (e) =>{
         e.preventDefault()    
         if(!this.state.query.trim()){
-         return alert(`Please, enter your query in the search bar :)`)
+         return toast.error("Please, enter your query in the search bar :)");
         }
         this.props.onSubmit(this.state.query);
         this.setState({
