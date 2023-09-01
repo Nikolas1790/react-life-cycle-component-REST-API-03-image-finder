@@ -1,13 +1,26 @@
+import { Component } from "react"
 import { ImageGalleryOne, ImageGalleryOneImg } from "./ImageGalleryItem.styled"
+import { Modal } from "components/Modal/Modal";
 
-export const ImageGalleryItem = ({images}) => {
+export class ImageGalleryItem extends Component {
+    state = {
+        showModal: false
+      };
+      
+      toggleModal = () => {        
+        this.setState(({showModal}) => ({showModal: !showModal}))
+      }
+
+      render(){
+      
+        const { webformatURL, largeImageURL, tags } = this.props.img;
     return (
-        <>
-            {images.map(({id, webformatURL, largeImageURL, tags }) =>(
-      <ImageGalleryOne className="gallery-item" key={id} >
+        <>            
+      <ImageGalleryOne className="gallery-item" onClick={this.toggleModal} >
                 <ImageGalleryOneImg src={webformatURL} alt={tags}/>
-            </ImageGalleryOne>))}
+            </ImageGalleryOne>
+            {this.state.showModal && <Modal onClose={this.toggleModal} alt={tags} largeImageURL={largeImageURL}/>}
         </>
-    )
+    )}
 }
 

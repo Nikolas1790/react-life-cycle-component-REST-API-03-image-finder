@@ -5,10 +5,9 @@ import { Searchbar } from "./Searchbar/Searchbar"
 import { ImageGallery } from "./ImageGallery/ImageGallery"
 import { Button } from "./Button/Button"
 import { Loader } from "./Loader/Loader"
-import { Modal } from "./Modal/Modal"
 import { getImages } from "services/getImages"
 import { AppStyled } from "components/App.styled"
-// import { ContentInfo } from "./ContentInfo/ContentInfo"
+
 
 export class App extends Component {
   state = {
@@ -17,9 +16,13 @@ export class App extends Component {
     page:1,
 
     loader: false,
-    error: null
+    error: null,
+    totalImg: null,    
     }
+
+
       componentDidUpdate(prevProps, prevState) {  
+
         // if(this.state.query === ''){
         //   return this.setState({ images: []});
         // }       
@@ -39,23 +42,30 @@ export class App extends Component {
         // }
         if(this.state.query !== prevState.query ){
           this.setState({ loader: true})
-          console.log('fffffffff', this.state.page)
-
+          
           getImages(this.state.query, this.state.page)
-         .then(({hits}) => this.setState({ images: hits}))
+         .then(({hits, totalHits}) => {
+          
+          if(hits.length === 0){
+            return toast.error('Not a valid request');
+          }
+          this.setState({ images: hits, totalImg: totalHits})})
          .catch(error => this.setState({error}))
          .finally(() => this.setState({loader: false}));
          return;
         }
+
+
         if (prevState.query !== this.state.query || prevState.page !== this.state.page){
           this.setState({ loader: true})
 
           getImages(this.state.query, this.state.page)
-          .then(({hits}) => this.setState({ images: [...prevState.images, ...hits]}))
+          .then(({hits}) => {
+            
+            this.setState({ images: [...prevState.images, ...hits]})})
           .catch(error => this.setState({error}))
           .finally(() => this.setState({loader: false}))
-          console.log('fffjjjjjjjjjjjjjjjjjjjjjjjjjj',this.state.page)
-         
+                   
         }
        
        
@@ -97,16 +107,13 @@ export class App extends Component {
   render(){
   return (
     <AppStyled>
-      <Searchbar onSubmit={this.formSubmitHendle}/>  
-      {/* <ContentInfo query={this.state.query}/>                     */}
+      
+      <Searchbar onSubmit={this.formSubmitHendle}/>        
       {this.state.error && <p><b>Error. Try again later</b></p>}
-      {this.state.loader && <Loader/>}      
-      {/* {this.state.loader && this.state.images.length === 0 && toast.error("Please, enter your query in the search bar :)")}    */}
+      {this.state.loader && <Loader/>}            
       {this.state.images.length > 0 && <ImageGallery images={this.state.images}/>}      
-      {this.state.images.length > 0 && <Button handleLoaderMore={this.handleLoaderMore}/>}
-      {/* {this.state.query && this.state.images.length <= 0 && toast.error("Please, enter your query in the search bar :)")} */}
-      <Modal/>
-      <Modal/>
+      {this.state.images.length > 0 && this.state.page < Math.ceil(this.state.totalImg/12) && <Button handleLoaderMore={this.handleLoaderMore}/>}    
+      
       <ToastContainer autoClose={3000}/>
       </AppStyled>
   )}
