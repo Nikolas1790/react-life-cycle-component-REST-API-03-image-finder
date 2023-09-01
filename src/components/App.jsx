@@ -1,5 +1,5 @@
 import { Component } from "react"
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Searchbar } from "./Searchbar/Searchbar"
 import { ImageGallery } from "./ImageGallery/ImageGallery"
@@ -19,19 +19,27 @@ export class App extends Component {
     loader: false,
     error: null
     }
-      componentDidUpdate(prevProps, prevState) {         
-       
-        if (prevState.query !== this.state.query || prevState.page !== this.state.page){
-          this.setState({ loader: true})
+      componentDidUpdate(prevProps, prevState) {  
+        // if(this.state.query === ''){
+        //   return this.setState({ images: []});
+        // }       
+        // const parts = this.state.query.split('/'); 
+        // const dataPart = parts[1];
+        // console.log(parts[1])
+        // console.log(prevState.query)
+        // if(prevState.query === parts[1]){
+        //   this.setState({ loader: true, images: [] })
+        //   console.log('gggggggggggggggggggggggggggggggggggg')
 
-          getImages(this.state.query, this.state.page)
-          .then(({hits}) => this.setState({ images: [...prevState.images, ...hits]}))
-          .catch(error => this.setState({error}))
-          .finally(() => this.setState({loader: false}))
-         
-        }
+        //   getImages(this.state.query, this.state.page)
+        //  .then(({hits}) => this.setState({ images: hits}))
+        //  .catch(error => this.setState({error}))
+        //  .finally(() => this.setState({loader: false}));
+        //  return;
+        // }
         if(this.state.query !== prevState.query ){
           this.setState({ loader: true})
+          console.log('fffffffff', this.state.page)
 
           getImages(this.state.query, this.state.page)
          .then(({hits}) => this.setState({ images: hits}))
@@ -39,6 +47,37 @@ export class App extends Component {
          .finally(() => this.setState({loader: false}));
          return;
         }
+        if (prevState.query !== this.state.query || prevState.page !== this.state.page){
+          this.setState({ loader: true})
+
+          getImages(this.state.query, this.state.page)
+          .then(({hits}) => this.setState({ images: [...prevState.images, ...hits]}))
+          .catch(error => this.setState({error}))
+          .finally(() => this.setState({loader: false}))
+          console.log('fffjjjjjjjjjjjjjjjjjjjjjjjjjj',this.state.page)
+         
+        }
+       
+       
+        // if (prevState.query !== this.state.query || prevState.page !== this.state.page){
+        //   this.setState({ loader: true})
+
+        //   getImages(this.state.query, this.state.page)
+        //   .then(({hits}) => this.setState({ images: hits}))
+        //   .catch(error => this.setState({error}))
+        //   .finally(() => this.setState({loader: false}))
+        //   return;
+         
+        // }
+        // if(this.state.query !== prevState.query ){
+        //   this.setState({ loader: true})
+
+        //   getImages(this.state.query, this.state.page)
+        //  .then(({hits}) => this.setState({ images: hits}))
+        //  .catch(error => this.setState({error}))
+        //  .finally(() => this.setState({loader: false}));
+        //  return;
+        // }
         // if(this.state.query && this.state.images.length === 0 ){
         //   console.log('fffffffffffffffffffffffffffffffffffffff')
         // }
@@ -46,11 +85,13 @@ export class App extends Component {
       
 
     handleLoaderMore = () => {
-       this.setState(prevState => ({page: prevState.page + 1}))     
+      this.setState(prevState => ({page: prevState.page + 1})) 
+      //  this.setState(prevState => ({page: prevState.page + 1, images:[...prevState.images, ...this.state.images]}))     
     }
 
     formSubmitHendle = data =>{      
-      this.setState(() => ({query: data }))
+      this.setState(() => ({query: data, page: 1, images: [] }))
+      // this.setState(() => ({query: `${Date.now()}/${data}` }))
     }
   
   render(){
@@ -58,7 +99,7 @@ export class App extends Component {
     <AppStyled>
       <Searchbar onSubmit={this.formSubmitHendle}/>  
       {/* <ContentInfo query={this.state.query}/>                     */}
-      {this.state.error && <p>fdsffffffffffffff</p>}
+      {this.state.error && <p><b>Error. Try again later</b></p>}
       {this.state.loader && <Loader/>}      
       {/* {this.state.loader && this.state.images.length === 0 && toast.error("Please, enter your query in the search bar :)")}    */}
       {this.state.images.length > 0 && <ImageGallery images={this.state.images}/>}      
