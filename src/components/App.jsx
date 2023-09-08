@@ -20,35 +20,66 @@ export class App extends Component {
     totalImg: null,    
     }
 
-      componentDidUpdate(prevProps, prevState) {        
-        if(this.state.query !== prevState.query ){
-          this.setState({ loader: true})
+      // componentDidUpdate(prevProps, prevState) {        
+      //   if(this.state.query !== prevState.query ){
+      //     this.setState({ loader: true})
           
-          getImages(this.state.query, this.state.page)
-         .then(({hits, totalHits}) => {
+      //     getImages(this.state.query, this.state.page)
+      //    .then(({hits, totalHits}) => {
           
-          if(hits.length === 0){
-            return toast.error('Not a valid request');
-          }
-          this.setState({ images: hits, totalImg: totalHits})})
-         .catch(error => this.setState({error}))
-         .finally(() => this.setState({loader: false}));
-         return;
-        }
+      //     if(hits.length === 0){
+      //       return toast.error('Not a valid request');
+      //     }
+      //     this.setState({ images: hits, totalImg: totalHits})})
+      //    .catch(error => this.setState({error}))
+      //    .finally(() => this.setState({loader: false}));
+      //    return;
+      //   }
 
 
-        if ( prevState.page !== this.state.page){
-          this.setState({ loader: true})
+      //   if ( prevState.page !== this.state.page){
+      //     this.setState({ loader: true})
 
-          getImages(this.state.query, this.state.page)
-          .then(({hits}) => {            
-            this.setState({ images: [...prevState.images, ...hits]})})
-          .catch(error => this.setState({error}))
-          .finally(() => this.setState({loader: false}))                   
-        }      
-       }     
+      //     getImages(this.state.query, this.state.page)
+      //     .then(({hits}) => {            
+      //       this.setState({ images: [...prevState.images, ...hits]})})
+      //     .catch(error => this.setState({error}))
+      //     .finally(() => this.setState({loader: false}))                   
+      //   }      
+      //  }     
+      componentDidUpdate(prevProps, prevState) {
+        const { query, page } = this.state;
       
-
+        const fetchData = () => {
+          this.setState({ loader: true });
+      
+          getImages(query, page)
+            .then(({ hits, totalHits }) => {
+              if (hits.length === 0) {
+                toast.error('Not a valid request');
+              } else {
+                if (prevState.page !== page) {
+                  this.setState((prevState) => ({
+                    images: [...prevState.images, ...hits],
+                    totalImg: totalHits,
+                  }));
+                } else {
+                  this.setState({
+                    images: hits,
+                    totalImg: totalHits,
+                  });
+                }
+              }
+            })
+            .catch((error) => this.setState({ error }))
+            .finally(() => this.setState({ loader: false }));
+        };
+      
+        if (query !== prevState.query || page !== prevState.page) {
+          fetchData();
+        }
+      }
+      
     handleLoaderMore = () => {
       this.setState(prevState => ({page: prevState.page + 1}))       
     }
