@@ -37,7 +37,7 @@ export class App extends Component {
         }
 
 
-        if (prevState.query !== this.state.query || prevState.page !== this.state.page){
+        if ( prevState.page !== this.state.page){
           this.setState({ loader: true})
 
           getImages(this.state.query, this.state.page)
