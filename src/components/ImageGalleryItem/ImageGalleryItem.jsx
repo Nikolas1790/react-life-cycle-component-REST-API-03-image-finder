@@ -5,22 +5,23 @@ import { Modal } from "components/Modal/Modal";
 export class ImageGalleryItem extends Component {
     state = {
         showModal: false
-      };
+    };
       
-      toggleModal = () => {        
-        this.setState(({showModal}) => ({showModal: !showModal}))
-      }
+    toggleModal = () => {        
+      this.setState(({showModal}) => ({showModal: !showModal}))
+    }
 
-      render(){
+    render(){
       
-        const { webformatURL, largeImageURL, tags } = this.props.img;
-    return (
+      const { webformatURL, largeImageURL, tags } = this.props.img;
+      return (
         <>            
-      <ImageGalleryOne className="gallery-item" onClick={this.toggleModal} >
-                <ImageGalleryOneImg src={webformatURL} alt={tags}/>
-            </ImageGalleryOne>
-            {this.state.showModal && <Modal onClose={this.toggleModal} alt={tags} largeImageURL={largeImageURL}/>}
+          <ImageGalleryOne className="gallery-item" onClick={this.toggleModal} >
+            <ImageGalleryOneImg src={webformatURL} alt={tags}/>
+          </ImageGalleryOne>
+          {this.state.showModal && <Modal onClose={this.toggleModal} alt={tags} largeImageURL={largeImageURL}/>}
         </>
-    )}
+      )
+    }
 }
 

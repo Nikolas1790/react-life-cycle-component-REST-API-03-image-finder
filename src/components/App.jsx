@@ -8,7 +8,6 @@ import { Loader } from "./Loader/Loader"
 import { getImages } from "services/getImages"
 import { AppStyled } from "components/App.styled"
 
-
 export class App extends Component {
   state = {
     query:'',
@@ -18,62 +17,35 @@ export class App extends Component {
     loader: false,
     error: null,
     totalImg: null,    
-    }
-
-      // componentDidUpdate(prevProps, prevState) {        
-      //   if(this.state.query !== prevState.query ){
-      //     this.setState({ loader: true})
-          
-      //     getImages(this.state.query, this.state.page)
-      //    .then(({hits, totalHits}) => {
-          
-      //     if(hits.length === 0){
-      //       return toast.error('Not a valid request');
-      //     }
-      //     this.setState({ images: hits, totalImg: totalHits})})
-      //    .catch(error => this.setState({error}))
-      //    .finally(() => this.setState({loader: false}));
-      //    return;
-      //   }
-
-
-      //   if ( prevState.page !== this.state.page){
-      //     this.setState({ loader: true})
-
-      //     getImages(this.state.query, this.state.page)
-      //     .then(({hits}) => {            
-      //       this.setState({ images: [...prevState.images, ...hits]})})
-      //     .catch(error => this.setState({error}))
-      //     .finally(() => this.setState({loader: false}))                   
-      //   }      
-      //  }     
-      componentDidUpdate(prevProps, prevState) {
-        const { query, page } = this.state;
+  }
+  
+  componentDidUpdate(prevProps, prevState) {
+    const { query, page } = this.state;
       
-        const fetchData = () => {
-          this.setState({ loader: true });
+    const fetchData = () => {
+      this.setState({ loader: true });
       
-          getImages(query, page)
-            .then(({ hits, totalHits }) => {
-              if (hits.length === 0) {
-                toast.error('Not a valid request');
-              } else {
-                if (prevState.page !== page) {
-                  this.setState((prevState) => ({
-                    images: [...prevState.images, ...hits],
-                    totalImg: totalHits,
-                  }));
-                } else {
-                  this.setState({
-                    images: hits,
-                    totalImg: totalHits,
-                  });
-                }
-              }
-            })
-            .catch((error) => this.setState({ error }))
-            .finally(() => this.setState({ loader: false }));
-        };
+      getImages(query, page)
+      .then(({ hits, totalHits }) => {
+        if (hits.length === 0) {
+          toast.error('Not a valid request');
+        } else {
+          if (prevState.page !== page) {
+            this.setState((prevState) => ({
+            images: [...prevState.images, ...hits],
+            totalImg: totalHits,
+          }));
+          } else {
+            this.setState({
+              images: hits,
+              totalImg: totalHits,
+            });
+          }
+        }
+      })
+      .catch((error) => this.setState({ error }))
+      .finally(() => this.setState({ loader: false }));
+      };
       
         if (query !== prevState.query || page !== prevState.page) {
           fetchData();
@@ -89,16 +61,15 @@ export class App extends Component {
   
   render(){
     const {images, loader, totalImg, error, page } = this.state
-  return (
-    <AppStyled>
+    return (
+      <AppStyled>      
+        <Searchbar onSubmit={this.formSubmitHendle}/>        
+        {error && <p><b>Error. Try again later</b></p>}
+        {loader && <Loader/>}            
+        {images.length > 0 && <ImageGallery images={images}/>}      
+        {images.length > 0 && page < Math.ceil(totalImg/12) && <Button handleLoaderMore={this.handleLoaderMore}/>}    
       
-      <Searchbar onSubmit={this.formSubmitHendle}/>        
-      {error && <p><b>Error. Try again later</b></p>}
-      {loader && <Loader/>}            
-      {images.length > 0 && <ImageGallery images={images}/>}      
-      {images.length > 0 && page < Math.ceil(totalImg/12) && <Button handleLoaderMore={this.handleLoaderMore}/>}    
-      
-      <ToastContainer autoClose={3000}/>
+        <ToastContainer autoClose={3000}/>
       </AppStyled>
   )}
 };

@@ -3,14 +3,12 @@ const OPTIONS = 'image_type=photo&orientation=horizontal&per_page=12'
 const KEY ='38315175-abb8429954921ba34a6a526ed'
 
 export const getImages = (query, page) => {
-
-    return fetch(`${BASE_URL}?q=${query}&page=${page}&key=${KEY}&${OPTIONS}`)
-          .then(resp => {
-            if(resp.ok){
-                return resp.json();
-            }
-            return Promise.reject(new Error(`error`))
-          });
-          
+  return fetch(`${BASE_URL}?q=${query}&page=${page}&key=${KEY}&${OPTIONS}`)
+    .then(resp => {
+      if(resp.ok){
+        return resp.json();
+      }
+    return Promise.reject(new Error(`error`))
+  });          
 }
 

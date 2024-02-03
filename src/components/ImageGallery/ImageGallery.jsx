@@ -9,10 +9,8 @@ export const ImageGallery = ({images}) =>{
                     return(                        
                         <ImageGalleryItem img={img} key={img.id}/> 
                     )
-                })}               
-  
-            </ImageGalleryUl>
-            
+                })}              
+            </ImageGalleryUl>            
         </div>
     )
 }
